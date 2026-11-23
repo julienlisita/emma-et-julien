@@ -1,162 +1,83 @@
 # Architecture
 
-This document describes the architecture as implemented: folder roles and the main data/UI flows. It must be kept in sync with the code. The conventions to follow when changing the code are in `docs/RULES.md`.
+This document describes the architecture as implemented. It must be kept in sync with the code. The conventions to follow when changing the code are in `docs/RULES.md`.
 
 ---
 
 ## Architecture summary
 
+- Single-page personal site (`emma-et-julien`) with several sections, animations and client-side interactions.
+- No database, authentication, administration or business backend.
 - App Router handles routing; `src/screens/` contains screen components only.
-- UI → server actions → services → repositories → Prisma.
-- Data can come from static files or DB depending on `IS_DB` (static-only features such as the portfolio always use static files).
+- Server Components by default; Client Components only where interaction requires it.
 - Tailwind = layout/responsive; CSS files = visual styling.
 
 ## 1. High-level stack
 
-- **Next.js 16** — App Router only for routing (`src/app/`). Turbopack bundler; ESLint flat config (`eslint.config.mjs`) imports `eslint-config-next/core-web-vitals` and `eslint-config-next/typescript` directly.
+- **Next.js 16** — App Router only (`src/app/`). Turbopack bundler; ESLint flat config (`eslint.config.mjs`).
 - **TypeScript** — Strict; path alias `@/*` → `src/*`.
-- **Tailwind CSS** — Layout and responsive; visual styles in component CSS files using design tokens from `globals.css`.
-- **Prisma** — PostgreSQL ORM; schema and migrations in `prisma/`.
-- **Zod** — Validation in server actions.
-- **Auth** — JWT in HTTP-only cookie; guards in `src/server/guards/`.
+- **Tailwind CSS 3** — Layout and responsive; visual styles in component CSS files using design tokens from `globals.css`.
 
 ---
 
 ## 2. Folder structure and roles
 
 ```
-nextjs-ts-tailwind-template/
-├── prisma/                 # Schema, migrations, seed
-├── public/                 # Static assets (images, favicons, manifest)
-├── scripts/                # Build/CI scripts (e.g. seed-if.mjs)
-├── src/
-│   ├── app/                # App Router: routes, layouts, global styles
-│   ├── components/        # Reusable UI components (by feature/type)
-│   ├── config/            # App config (e.g. dataMode)
-│   ├── data/              # Static data when DB is disabled
-│   ├── lib/               # Shared utilities (prisma, jwt, auth-cookies)
-│   ├── screens/           # Screen-level UI components (no routing, no data fetching)
-│   ├── server/            # Guards, repositories, services
-│   ├── types/             # Shared TypeScript types
-│   └── utils/             # Pure helpers (align, icons)
+emma-et-julien/
+├── docs/                   # ARCHITECTURE.md, RULES.md
+├── public/                 # Static assets (favicons, manifest)
+└── src/
+    ├── app/                # App Router: routes, layouts, global styles, metadata
+    │   └── (site)/         # Site layout, home page, not-found
+    ├── components/
+    │   ├── data-display/   # FeatureCard
+    │   ├── layout/         # Section, SectionWrapper, Split
+    │   ├── navigation/     # Pagination
+    │   ├── patterns/       # ActionsStack, Cta, HeaderBlock, PageHero, SplitSection
+    │   └── ui/             # Button, Modal, Eyebrow, PageTitle, SectionTitle, Subtitle, Paragraph, Lead, Prose
+    ├── config/             # site.ts (name, URL)
+    ├── lib/                # resolveColor
+    ├── screens/            # Screen-level UI composition (HomeScreen)
+    ├── types/              # Shared types
+    └── utils/              # Pure helpers (align)
 ```
 
-### 2.1 `src/app/` (App Router)
+### 2.1 `src/app/`
 
-- **Root**: `layout.tsx` (html/body, globals.css), `metadata.ts`, `viewport.ts`.
-- **`(site)/`**: Public site layout (Header, Footer, main with header offset). Contains:
-  - **`(auth)/`**: login, signup (route groups; no layout segment in URL).
-  - **Other segments**: about, contact, events, faq, gallery, legal/\*, news, portfolio, recruitment, reservations, services, testimonials, thank-you, thank-you-application.
-- **`admin/`**: Admin area; layout in `admin/layout.tsx` uses `requireAdminApp()` to protect all `/admin/*` routes.
-- **Convention**: Each route segment that has a screen has a `page.tsx` that usually exports `metadata` and renders a component from `src/screens/`. Forms use co-located `actions.ts` (server actions).
+- **Root**: `layout.tsx` (html/body, `globals.css`), `metadata.ts`, `viewport.ts`, `robots.ts`.
+- **`(site)/`**: site layout (`<main>` and `#modal-root`), `page.tsx` (home) and `not-found.tsx`.
+- `page.tsx` exports `metadata` and renders a component from `src/screens/`.
 
 ### 2.2 `src/screens/`
 
-- **Role**: Page-level (screen) UI composition.
-- They are imported by `src/app/**/page.tsx`.
-- Screens:
-  - Do not fetch data.
-  - Do not define routes.
-  - Do not use `getServerSideProps`.
-  - Receive their data through props from `page.tsx` (which fetches it, directly or via `*.server.ts` / services). They may import Prisma **types** (`import type`), never the Prisma client or repositories.
-- They compose:
-  - UI components,
-  - and server components (e.g. `*SectionServer.tsx`).
-- **Naming**: Screen components use the `*Screen.tsx` suffix (e.g. `HomeScreen.tsx`, `ContactScreen.tsx`, `NewsScreen.tsx`).
-  Admin screens follow the same convention under `src/screens/admin/` (e.g. `OffersAdminScreen.tsx`, `ReservationsAdminScreen.tsx`, `SettingsAdminScreen.tsx`).
-- Screens compose UI components and server components (e.g. `NewsSectionServer.tsx`, `TestimonialsTeaserServer.tsx`) but do not fetch data directly.
+- Page-level UI composition, imported by `src/app/**/page.tsx`.
+- Screens do not fetch data and do not define routes.
 
 ### 2.3 `src/components/`
 
-- **Organization**: By feature or type: `about/`, `admin/`, `contact/`, `data-display/`, `form/`, `home/`, `layout/`, `navigation/`, `news/`, `patterns/`, `portfolio/`, `recruitment/`, `reservations/`, `services/`, `testimonials/`, `ui/`.
-- **Pattern**: Components that need custom styles have a co-located `.css` file (e.g. `Button.tsx` + `Button.css`). Layout/responsive via Tailwind (in JSX or `@apply` in CSS); colors, borders, states in CSS using `globals.css` tokens.
-- **`ui/`**: Low-level primitives (Button, Eyebrow, Lead, Modal, PageTitle, Paragraph, Prose, SectionTitle, Subtitle, SubmitButton).
-- **`layout/`**: Header, Footer, Section, SectionWrapper, Split, HeaderOffsetSync.
-- **`patterns/`**: Reusable sections (Cta, FeaturesGrid, HeaderBlock, PageHero, SplitSection, ActionsStack).
+- Reusable components organized by type (see tree above). Each component may have a co-located CSS file with the same base name.
 
-### 2.4 `src/server/`
+### 2.4 `src/config/`, `src/lib/`, `src/types/`, `src/utils/`
 
-- **`guards/`**:
-  - `requireAuth.app.ts` — App Router: reads cookie, verifies JWT, redirects to `/login` if missing/invalid; returns user payload.
-  - `requireAdmin.app.ts` — App Router: ensures the authenticated user has role `ADMIN`; used in `app/admin/layout.tsx` to protect all `/admin/*` routes. Reads the user through `userRepo.findById` (read-only technical check: account exists and is still `ADMIN` in the database, profile returned) — see RULES §5.
-- **`repositories/`**: One file per entity (e.g. `news.repo.ts`, `job-offer.repo.ts`). Thin wrappers around Prisma (findMany, findUnique, create, update, delete). No business logic.
-- **`services/`**:
-  - **`*.service.ts`**: Business logic; call repos, no direct Prisma.
-  - **`*.server.ts`**: Adapters for server-side data fetching. They check `IS_DB` from `@/config/dataMode`: if false, return static data from `src/data/`; if true, call the corresponding `*.service.ts` (with dynamic import where needed to avoid bundling Prisma in edge/static). Used by Server Components rendered from `app/**/page.tsx`. Static-only features (e.g. portfolio `projects.server.ts`) have no service or repository: the adapter reads `src/data/` directly and ignores `IS_DB`.
-
-### 2.5 `src/config/`, `src/data/`, `src/lib/`, `src/types/`, `src/utils/`
-
-- **`config/dataMode.ts`**: `DATA_MODE` = `'static' | 'db'` from env (`NEXT_PUBLIC_DATA_MODE` or `DATA_MODE`). `IS_DB` drives whether server adapters use DB or static data.
-- **`config/site.ts`**: `SITE_URL` from `NEXT_PUBLIC_SITE_URL` (trailing slash removed; falls back to a placeholder domain). Used by `app/metadata.ts` (`metadataBase`) and by `app/sitemap.ts` / `app/robots.ts`, which generate `/sitemap.xml` and `/robots.txt`. Page `canonical` values are relative paths resolved against `metadataBase`.
-- **`data/`**: Static arrays/objects (e.g. `news.ts`, `testimonials.ts`, `jobOffers.ts`) used when `IS_DB` is false. `projects.ts` (portfolio) is static-only and served in both modes. Types in `src/types/` align with these and with Prisma-backed responses.
-- **`lib/`**: `prisma.ts` (singleton client), `jwt.ts`, `auth-cookies.ts`, `resolveColor.ts` (resolves a token name or CSS color for the `bgColor` / `color` props of `Section` and `PageTitle`).
-- **`types/`**: Shared types (e.g. `news.ts`, `testimonial.ts`, `job.ts`, `project.ts`, `feature.ts`); `next.d.ts` for Next-specific types.
-- **`utils/`**: Pure helpers (e.g. `align.ts`, `icons.ts`).
+- `config/site.ts`: site name and base URL (`NEXT_PUBLIC_SITE_URL`, optional).
+- `lib/resolveColor.ts`, `utils/align.ts`: generic helpers.
 
 ---
 
 ## 3. Routing and layouts
 
-- **Public site**: All public URLs live under the `(site)` group: `/(site)/page.tsx` → `/`, `/(site)/contact/page.tsx` → `/contact`, etc. Shared layout: Header, main (with `paddingTop: var(--header-offset)`), Footer.
-- **Auth routes**: `/(site)/(auth)/login`, `/(site)/(auth)/signup` — same site layout, no `/auth` in path.
-- **Admin**: `/admin`, `/admin/news`, `/admin/offers`, `/admin/reservations`, `/admin/settings`, `/admin/testimonials`, `/admin/slots`. All wrapped by `admin/layout.tsx` which runs `requireAdminApp()` (force-dynamic).
-- **Dynamic segments**: e.g. `portfolio/[slug]/page.tsx`, `recruitment/[slug]/page.tsx`; route `page.tsx` fetches data (directly or via `*.server.ts`) and renders a Screen component (e.g. `src/screens/ProjectScreen.tsx`, `src/screens/JobOfferScreen.tsx`).
+- Only `/` and the 404 page exist. The site is a single page made of sections.
+- Header, footer and final sections will be defined from the design mockup.
 
----
+## 4. Styling flow
 
-## 4. Data flow
+- Tokens (colors, spacing, typography) are defined in `src/app/globals.css`.
+- Components use Tailwind for layout/responsive and a co-located CSS file for visual styles, consuming the tokens.
 
-### 4.1 Server-side data (DB or static)
+## 5. SEO
 
-1. **Entry point**: a Server Component (e.g. `*SectionServer.tsx`) rendered from `app/**/page.tsx` or composed inside a Screen.
-2. **Adapter** (`*.server.ts`): Reads `IS_DB`; if `!IS_DB`, returns data from `src/data/*`; if `IS_DB`, dynamically imports the corresponding `*.service.ts` and calls it.
-   - **Static-only exception** (portfolio): `projects.server.ts` returns `src/data/projects` directly in both modes, without service or repository.
-3. **Service** (`*.service.ts`): Uses repositories only.
-4. **Repository** (`*.repo.ts`): Uses Prisma for CRUD.
-
-### 4.2 Mutations (forms)
-
-1. Form submits to a **server action** in `actions.ts` next to the route.
-2. Action parses `FormData`, validates with **Zod**, then calls a **service** (e.g. `sendContactAdminEmail`, reservation create, testimonial create).
-3. Service may use repos and/or external APIs (e.g. the Brevo API for email). Action then `redirect()` to success or error URL.
-
-- **Rule**: Server actions never call Prisma or repositories directly; they always go through services. (Only auth guards may read a repository directly, read-only — see RULES §5.)
-
----
-
-## 5. Styling flow
-
-- **Global**: `src/app/globals.css` — Tailwind directives + design tokens (CSS custom properties). Tokens are organized as: sources (raw palette) → brand → UI (e.g. `--color-bg`, `--btn-primary-bg`, `--color-header-bg`). Light/dark via `html.dark`.
-- **Components**: Each component that needs custom visuals imports its `.css` file. In the CSS file:
-  - **Layout / responsive**: Tailwind utilities via `@apply` (e.g. `@apply flex gap-4 lg:grid lg:grid-cols-2`).
-  - **Visual**: Raw CSS with tokens (e.g. `background-color: var(--color-hero-bg);`, `color: var(--btn-primary-text);`, hover/focus states).
-- **Tailwind config**: `content` includes `app`, `components`, `screens`, `utils` (and `server` only if needed for class scanning).
-
----
-
-## 6. Auth flow
-
-- **Login**: Form in `(auth)/login` submits to a server action; action validates credentials, creates JWT, sets HTTP-only cookie (name from `auth-cookies.ts`), then redirects.
-- **Protected routes (App Router)**: Layout or page calls `requireAuthApp()` or `requireAdminApp()`.
-  - `requireAuthApp` reads cookie, verifies JWT, redirects to `/login` on failure.
-  - `requireAdminApp` enforces role `ADMIN`: the JWT role is a fast pre-check, and the role stored in the database is authoritative (read through `userRepo`, read-only technical check). A deleted or demoted admin loses access without waiting for the token to expire.
-  - Guards are the only layer allowed to read a repository without going through a service; see RULES §5.
-- **Admin layout**: `app/admin/layout.tsx` runs `requireAdminApp()` once; all `/admin/*` routes are protected.
-
----
-
-## 7. Prisma and env
-
-- **Schema**: `prisma/schema.prisma` — PostgreSQL; models include User, JobOffer, Testimonial, NewsItem, ReservationSlot, Reservation. Enums: Role, SlotStatus.
-- **Client and config**: Prisma 7. `prisma.config.ts` (root) holds the schema path, the migrations path, the seed command (`tsx prisma/seed.ts`) and the datasource URL from `DATABASE_URL`. The `prisma-client` generator writes the client to `src/generated/prisma/` (git-ignored, never edited); import it from `@/generated/prisma/client` (models, enums, `Prisma` namespace, `PrismaClient`). The client is created with the PostgreSQL driver adapter `@prisma/adapter-pg` in `src/lib/prisma.ts` (app) and `createPrismaClient()` in `prisma/seed-shared.ts` (seeds).
-- **Single source of truth**: The Prisma schema is the single source of truth for all DB-backed types and shapes. TypeScript types must align with it and should not redefine DB entities independently.
-- **Migrations**: Stored in `prisma/migrations/`; applied with `db:deploy` or `prisma migrate dev`.
-- **Seed**: `prisma/seed.ts` (run via `db:seed`) is non-destructive and idempotent: `createMany({ skipDuplicates })` on tables with a unique key (User.email, NewsItem.slug/url, JobOffer.slug), insert-only-if-empty for Testimonial and ReservationSlot, Reservation untouched. Optional: `scripts/seed-if.mjs` runs this seed when `SEED_ON_BUILD=true`. `prisma/seed-reset.ts` (`db:seed:reset -- --confirm-reset`) wipes and refills a local test database; it is never run by `prisma db seed` or `seed-if`, and refuses non-local hosts, `NODE_ENV=production`, or a missing flag. Data builders shared by both scripts live in `prisma/seed-shared.ts`.
-- **Env**: `DATABASE_URL` for Prisma. `NEXT_PUBLIC_DATA_MODE` or `DATA_MODE` for static vs DB. `BREVO_API_KEY`, `MAIL_SENDER_EMAIL` and `ADMIN_NOTIFICATION_EMAIL` for email sending (Brevo HTTP API, called with `fetch` from `src/server/services/*.mail.ts`), plus optional `CONTACT_NOTIFICATION_EMAIL` and `RECRUITMENT_NOTIFICATION_EMAIL` overrides.
+- The site is temporarily non-indexable: `robots: { index: false }` in `metadata.ts` and `Disallow: /` in `robots.ts`. No sitemap.
 
 ## Non-responsibilities
 
-- UI components do not access Prisma or repositories.
-- Repositories do not contain business logic.
-- Services do not perform routing, redirects, or auth guards.
-- `src/screens/` components do not define routes.
+- No data fetching layer, database, authentication or form handling.

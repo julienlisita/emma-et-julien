@@ -5,7 +5,7 @@ import nextTypescript from 'eslint-config-next/typescript';
 import prettierPlugin from 'eslint-plugin-prettier';
 
 const eslintConfig = [
-  { ignores: ['.next/**', 'next-env.d.ts', 'src/generated/**'] },
+  { ignores: ['.next/**', 'next-env.d.ts'] },
 
   ...nextVitals,
   ...nextTypescript,
@@ -16,12 +16,6 @@ const eslintConfig = [
     rules: {
       'prettier/prettier': 'error',
       'react/no-unescaped-entities': 'off',
-    },
-  },
-  {
-    files: ['src/generated/**/*.*'],
-    rules: {
-      'prettier/prettier': 'off',
     },
   },
 ];

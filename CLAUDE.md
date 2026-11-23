@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Reusable Next.js (App Router) + React + TypeScript + Tailwind CSS + Prisma (PostgreSQL) template.
+Site personnel `emma-et-julien` : une seule page (plusieurs sections, animations, interactions côté client) en Next.js (App Router) + React + TypeScript + Tailwind CSS. Aucune base de données, authentification, administration ni backend métier.
 
 Path alias: `@/*` → `src/*`.
 
@@ -10,9 +10,9 @@ Dependency versions are defined in `package.json`, which is the source of truth.
 
 Read the relevant documentation before making any code changes:
 
-- `docs/RULES.md` — development rules (styling, naming conventions, server layers, authentication, commits).
-- `docs/ARCHITECTURE.md` — directory structure, data flows, authentication, and styling architecture.
-- `README.md` — installation, configuration, data modes, scripts, and deployment.
+- `docs/RULES.md` — development rules (styling, naming conventions, Server/Client Components, commits).
+- `docs/ARCHITECTURE.md` — directory structure and styling architecture.
+- `README.md` — installation, scripts, and deployment.
 
 Follow the documented conventions.
 
@@ -21,12 +21,10 @@ If the documentation conflicts with the actual implementation, report the incons
 ## Commands
 
 - Development: `npm run dev`
-- Production build: `npm run build` (includes `prisma generate`)
+- Production build: `npm run build`
 - TypeScript validation: `npm run check-types`
 - ESLint validation: `npm run lint`
 - Formatting validation: `npm run check-format`
-- Database migrations: `npm run db:deploy`
-- Database seeding: `npm run db:seed` (non-destructive, requires `ADMIN_SEED_PASSWORD`). `npm run db:seed:reset` is destructive: never run it without explicit approval.
 
 Before completing a task, run the relevant validation commands.
 
@@ -37,46 +35,19 @@ There are currently no automated tests in the repository.
 Detailed rules are defined in `docs/RULES.md`.
 
 - Preserve the existing architecture. Any architectural changes, new dependencies, or new patterns must be justified and approved before implementation.
-- Server architecture: Server Action / Server Component → `*.server.ts` / `*.service.ts` → `*.repo.ts` → Prisma.
-- Prisma must only be accessed through repositories.
 - `src/screens/*Screen.tsx` components are responsible for UI composition only and must not fetch data.
-- Data fetching belongs in `page.tsx` or `*Server.tsx` components.
+- Server Components by default; use `'use client'` only when needed (state, effects, animations, interactions).
 - Use Tailwind CSS for layout and responsive design.
 - Use co-located CSS files for colors, borders, typography, visual effects, and interactive states.
 - Use design tokens defined in `src/app/globals.css`. Avoid hardcoded hexadecimal colors.
-- Server Actions must be defined in `actions.ts` near their corresponding routes, validate inputs with Zod, call the appropriate services, and use `redirect()` when necessary.
 - Use the App Router exclusively. The Pages Router is not allowed.
-- Use the existing authentication guards: `requireAuthApp` and `requireAdminApp`.
 - Follow Conventional Commits: `type(scope): message`, with one logical change per commit.
 
 ## Important Considerations
 
-### Data Modes
-
-The template supports two data modes:
-
-- `static`: static data (default).
-- `db`: database-backed data.
-
-Data mode selection relies on `DATA_MODE` / `NEXT_PUBLIC_DATA_MODE`.
-
-The `*.server.ts` adapters use `IS_DB`, defined in `src/config/dataMode.ts`.
-
-Always preserve compatibility with both data modes.
-
-### Prisma
-
-The `src/generated/prisma/` directory contains generated code.
-
-Never edit these files manually.
-
 ### Environment Variables
 
-`.env` files contain sensitive information.
-
-Never expose their contents, include secrets in responses, or commit them to version control.
-
-Never execute destructive database migrations without explicit approval.
+`.env` files may contain sensitive information. Never expose their contents or commit them. The project needs no environment variable to run (`NEXT_PUBLIC_SITE_URL` is optional).
 
 ## Dependency Updates and Migrations
 
@@ -92,7 +63,7 @@ For any significant dependency update or technical migration:
 
 Additional rules:
 
-- Preserve existing functionality and compatibility with both `static` and `db` modes.
+- Preserve existing functionality.
 - Never run `npm audit fix --force` without explicit approval.
 - Never suppress TypeScript or ESLint errors merely to make the build pass.
 - Avoid unrelated changes.

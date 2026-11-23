@@ -1,15 +1,13 @@
 // src/app/robots.ts
 
 import type { MetadataRoute } from 'next';
-import { SITE_URL } from '@/config/site';
 
+// Site personnel : aucune indexation (temporaire)
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: '*',
-      allow: '/',
-      disallow: ['/admin/', '/draft/'],
+      disallow: '/',
     },
-    sitemap: `${SITE_URL}/sitemap.xml`,
   };
 }

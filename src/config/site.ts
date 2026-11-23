@@ -1,6 +1,8 @@
 // src/config/site.ts
 
-const DEFAULT_SITE_URL = 'https://www.exemple.com';
+export const SITE_NAME = 'Emma & Julien';
 
-/** Public base URL of the site (no trailing slash). Set NEXT_PUBLIC_SITE_URL in .env. */
+const DEFAULT_SITE_URL = 'http://localhost:3000';
+
+/** Public base URL of the site (no trailing slash). Optional: set NEXT_PUBLIC_SITE_URL in .env. */
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || DEFAULT_SITE_URL).replace(/\/+$/, '');
