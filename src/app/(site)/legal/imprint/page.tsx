@@ -1,0 +1,16 @@
+// src/app/(site)/legal/imprint/page.tsx
+
+import ImprintScreen from '@/screens/legal/ImprintScreen';
+
+export const metadata = {
+  title: 'Mentions légales – Nom entreprise',
+  description:
+    'Informations légales concernant l’éditeur du site, l’hébergement et la propriété intellectuelle.',
+  alternates: {
+    canonical: '/legal/imprint',
+  },
+};
+
+export default function ImprintPage() {
+  return <ImprintScreen />;
+}
