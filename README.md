@@ -1,6 +1,6 @@
-# Emma & Julien
+# Pour Emma
 
-Site personnel et narratif (une seule page, plusieurs sections, animations et interactions côté client) consacré à notre histoire, nos souvenirs, nos voyages, nos animaux et notre quotidien.
+Déclaration d'amour en dix chapitres, racontée au défilement et illustrée par des illustrations de style Ghibli (une seule page, sans backend).
 
 Initialisé à partir du template `nextjs-ts-tailwind-template`, puis simplifié : pas de base de données, d'authentification, d'administration ni de backend.
 
@@ -40,6 +40,8 @@ Variable optionnelle : `NEXT_PUBLIC_SITE_URL` (URL publique, utilisée pour `met
 ## Aperçu du projet
 
 - **Routes** : App Router uniquement, sous `src/app/` (page d'accueil et 404).
+- **Expérience** : les dix chapitres sont dans `src/components/story/` ; un seul Client Component (`ScrollEngine`) écrit la progression du défilement en variable CSS, tout le reste est du CSS. Voir `docs/ARCHITECTURE.md`.
+- **Référence** : `handoff/` contient le dossier de transfert de la maquette (textes, illustrations d'origine, specs). Il ne doit jamais être modifié.
 - **Screens** : composition UI dans `src/screens/` (`*Screen.tsx`), sans data fetching.
 - **Composants** : `src/components/` (ui, layout, patterns, data-display, navigation). Tailwind pour le layout et le responsive, CSS co-localisé pour le visuel, avec les tokens de `src/app/globals.css`.
 - **Référencement** : site temporairement non indexable (`robots` noindex, `robots.txt` en `Disallow: /`).

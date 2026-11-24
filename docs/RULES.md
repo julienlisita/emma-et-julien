@@ -9,7 +9,8 @@ These rules describe the conventions used in this codebase. Follow them strictly
 - Do not change existing architecture or folder structure.
 - Do not introduce new libraries or styling systems without prior approval.
 - App Router only — the Pages Router is not used.
-- Tailwind is for layout/responsive only; visual styles live in component CSS files.
+- Tailwind is for layout/responsive only; visual styles live in component CSS files (the scroll-driven story is the one documented exception, see §7).
+- `handoff/` is the original design reference: never modify it.
 
 ---
 
@@ -119,7 +120,40 @@ Rules:
 
 ---
 
-## 7. Commits
+## 7. « Pour Emma » — expérience au défilement
+
+Rules specific to the story in `src/components/story/` (reference: `handoff/`).
+
+### Scroll engine and CSS
+
+- `ScrollEngine` (the only Client Component of the story) writes `--p` (0 → 1) on each `[data-ch]` section and `--g` on `[data-progress]`. Never store the scroll progress in React state and never re-render per frame.
+- Animations are **scrubbed**: opacity, transform, `clip-path`, `filter` and `stroke-dashoffset` are `calc()` / `clamp()` of `var(--p)` in the chapter's CSS file. This is the exception to "Tailwind for layout, CSS for visuals": the scroll-driven formulas must stay in CSS files, and layout that depends on them (positions, sizes, grids) may live there too.
+- Chapters are Server Components. Reveal timings (`a`, `d`, `z`, `zd`) are props of `Reveal`; do not change them without checking `handoff/docs/03-chapitres.md`.
+- No scroll-jacking, no snapping, no `scroll-behavior` override: the user keeps control, and scrolling back replays everything in reverse.
+- Never use `overflow: hidden` on an ancestor of a sticky stage (use `overflow-x: clip`).
+- The story root sets `line-height: normal` (the mockup depends on it; Tailwind's preflight sets 1.5).
+
+### Naming
+
+- Chapter components: `ChapterNN.tsx` + co-located `ChapterNN.css`; CSS classes prefixed `chN-` (e.g. `ch4-img`).
+- Shared primitives: `story-*` classes in `story.css` (`story-stage`, `story-fill`, `story-cap`, …) and `reveal` / `reveal--soft`.
+- Colors, gradients, veils and fonts come from the `--color-*`, `--gradient-*`, `--veil-*` and `--font-*` tokens in `globals.css`.
+
+### Content and images
+
+- Texts are not reworded: they come from `handoff/contenu/textes.json` (French typography: ’, …, ·).
+- Illustrations are never edited, regenerated, filtered or replaced. They are listed with their alt text in `src/config/illustrations.ts` and rendered with `Illustration` (`next/image`, quality 90). Only crops, masks, zoom/parallax driven by scroll and overlay veils are allowed.
+- Nothing is added after « Et toujours. » (no button, link, form, share or counter), and no analytics without explicit approval.
+- Decorative layers (sun, veils, stars, dust, wave, ghost text, progress thread) are `aria-hidden`.
+
+### Motion and responsive
+
+- `prefers-reduced-motion: reduce` removes translations, blur, zoom/parallax and looping animations; fades (driven by the user's scroll) stay.
+- Single breakpoint in the mockup: 760px. Tablets in portrait (761–1100px) reuse the stacked phone layout for chapters II and V, where the desktop layout would overflow.
+
+---
+
+## 8. Commits
 
 - Use conventional commits: `type(scope): message`
 - Examples:

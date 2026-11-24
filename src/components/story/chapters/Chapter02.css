@@ -96,3 +96,28 @@
     margin-bottom: 0.4em;
   }
 }
+
+/* Tablette en portrait : l'arche (≈480px) recouvrirait la colonne de texte. On reprend la composition
+   du téléphone (arche au-dessus, texte centré dessous) avec les tailles de texte fluides du bureau. */
+@media (min-width: 761px) and (max-width: 1100px) and (orientation: portrait) {
+  .ch2-wrap {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: center;
+    gap: 4vh;
+    padding: 0 7vw;
+    text-align: center;
+  }
+
+  .ch2-arch {
+    order: -1;
+    height: 42vh;
+  }
+
+  .ch2-text {
+    margin: 0 auto;
+  }
+
+  .ch2-l2 {
+    margin-bottom: 0.4em;
+  }
+}

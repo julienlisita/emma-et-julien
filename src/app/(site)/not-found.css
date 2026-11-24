@@ -1,9 +1,0 @@
-/* src/app/(site)/not-found.css */
-
-.not-found__text {
-  color: var(--color-secondary);
-}
-
-.not-found__link {
-  color: var(--color-link-accent);
-}

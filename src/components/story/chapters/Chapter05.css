@@ -132,3 +132,47 @@
     align-self: start;
   }
 }
+
+/* Tablette (761–1100px) : sur le bureau, le cadre 3/4 déborde de sa colonne dans le padding.
+   En paysage, on contraint le cadre à sa colonne ; en portrait, on reprend la composition
+   empilée du téléphone (image en haut, textes dessous) en gardant les tailles de texte fluides. */
+@media (min-width: 761px) and (max-width: 1100px) {
+  .ch5-fig {
+    width: 100%;
+    max-width: calc(min(76vh, 740px) * 3 / 4);
+  }
+
+  .ch5-frame {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1100px) and (orientation: portrait) {
+  .ch5-grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: 46vh minmax(0, 1fr);
+    gap: 3vh;
+    padding: 6vh 7vw 5vh;
+    align-items: stretch;
+  }
+
+  .ch5-fig {
+    justify-self: center;
+    width: auto;
+    max-width: none;
+  }
+
+  .ch5-frame {
+    height: 46vh;
+    width: auto;
+  }
+
+  .ch5-caption {
+    display: none;
+  }
+
+  .ch5-cells > div {
+    align-self: start;
+  }
+}
