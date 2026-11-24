@@ -1,0 +1,73 @@
+/* src/components/story/chapters/Chapter10.css — X · La déclaration */
+
+.ch10-stars {
+  opacity: calc(1 - clamp(0, calc((var(--p, 0) - 0.2) / 0.2), 1));
+}
+
+.ch10-img {
+  object-position: 50% 36%;
+  opacity: clamp(0, calc((var(--p, 0) - 0.04) / 0.24), 1);
+  transform: scale(calc(1.14 - var(--p, 0) * 0.14));
+  filter: brightness(calc(0.5 + 0.5 * clamp(0, calc((var(--p, 0) - 0.04) / 0.32), 1)));
+}
+
+.ch10-veil {
+  background: var(--veil-final);
+  opacity: clamp(0, calc((var(--p, 0) - 0.3) / 0.14), 1);
+}
+
+.ch10-dim {
+  background: var(--color-final-dim);
+  opacity: clamp(0, calc((var(--p, 0) - 0.8) / 0.14), 1);
+}
+
+.ch10-text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 8vh;
+  padding: 0 6vw;
+  text-align: center;
+  color: var(--color-cream);
+}
+
+.ch10-love {
+  font-size: clamp(66px, 10vw, 160px);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1;
+  margin: 0 0 0.2em;
+}
+
+.ch10-row {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.55em;
+  flex-wrap: wrap;
+  font-size: clamp(26px, 3vw, 48px);
+  font-weight: 300;
+  margin: 0;
+}
+
+.ch10-dot {
+  color: var(--color-gold);
+}
+
+.ch10-always {
+  font-size: clamp(46px, 6vw, 96px);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--color-gold);
+  margin: 0.22em 0 0;
+  line-height: 1;
+}
+
+/* Filet or qui s'étire depuis le centre */
+.ch10-rule {
+  width: 64px;
+  height: 1px;
+  background: var(--color-gold);
+  margin: 30px auto 0;
+  transform: scaleX(clamp(0, calc((var(--p, 0) - 0.9) / 0.08), 1));
+}

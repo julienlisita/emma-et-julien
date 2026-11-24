@@ -17,6 +17,8 @@ type RevealProps = {
   soft?: boolean;
   className?: string;
   style?: CSSVars;
+  /** Élément purement décoratif (ex. point médian) */
+  decorative?: boolean;
   children: React.ReactNode;
 };
 
@@ -30,11 +32,16 @@ export default function Reveal({
   soft,
   className,
   style,
+  decorative,
   children,
 }: RevealProps) {
   const vars: CSSVars = { '--a': a, '--d': d, '--z': z, '--zd': zd, ...style };
   return (
-    <Tag className={clsx('reveal', soft && 'reveal--soft', className)} style={vars}>
+    <Tag
+      className={clsx('reveal', soft && 'reveal--soft', className)}
+      style={vars}
+      aria-hidden={decorative || undefined}
+    >
       {children}
     </Tag>
   );

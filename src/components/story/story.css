@@ -9,6 +9,8 @@
   background: var(--color-ivory);
   color: var(--color-ink);
   font-family: var(--font-text);
+  /* La maquette repose sur line-height: normal (le preflight Tailwind impose 1.5 sur html) */
+  line-height: normal;
 }
 
 /* Chapitre et stage collant */
@@ -124,4 +126,49 @@
 /* Capitales de chapitre sur fonds clairs */
 .story-cap--deep {
   color: var(--color-gold-deep);
+}
+
+/* Ciels de nuit */
+.story-sky-night {
+  background: var(--gradient-night);
+}
+
+/* Étoiles : apparition progressive (seuil --a par étoile) + scintillement */
+.story-star {
+  position: absolute;
+  border-radius: 50%;
+  opacity: clamp(0, calc((var(--p, 0) - var(--a, 0)) * 10), 1);
+}
+
+.story-star::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--color-star);
+  box-shadow: 0 0 6px var(--color-star-glow);
+  animation: story-twinkle 4.6s ease-in-out infinite;
+  animation-delay: var(--dl, 0s);
+}
+
+.story-stars--on .story-star {
+  opacity: 1;
+}
+
+@keyframes story-twinkle {
+  0% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-star::before {
+    animation: none !important;
+  }
 }

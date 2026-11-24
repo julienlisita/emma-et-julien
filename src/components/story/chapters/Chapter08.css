@@ -1,0 +1,159 @@
+/* src/components/story/chapters/Chapter08.css — VIII · Notre avenir */
+
+.ch8-stage {
+  --d: min(58vmin, 520px);
+}
+
+.ch8-sky-sunset {
+  background: var(--gradient-sunset);
+}
+
+.ch8-sky-dusk {
+  background: var(--gradient-dusk);
+  opacity: clamp(0, calc((var(--p, 0) - 0.16) / 0.22), 1);
+}
+
+.ch8-sky-night {
+  opacity: clamp(0, calc((var(--p, 0) - 0.74) / 0.2), 1);
+}
+
+.ch8-sunbox {
+  position: absolute;
+  left: 50%;
+  top: 50vh;
+  width: var(--d);
+  height: var(--d);
+  transform: translate3d(-50%, calc(var(--p, 0) * 36vh), 0);
+  opacity: calc(1 - clamp(0, calc((var(--p, 0) - 0.76) / 0.14), 1));
+}
+
+.ch8-halo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 260%;
+  height: 260%;
+  transform: translate(-50%, -50%);
+  background: var(--gradient-sun-halo);
+  pointer-events: none;
+}
+
+.ch8-disc {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 0 90px var(--color-sun-glow);
+}
+
+.ch8-img {
+  object-position: 50% 45%;
+}
+
+.ch8-tint {
+  background: var(--gradient-sun-tint);
+  mix-blend-mode: soft-light;
+}
+
+/* Le soleil s'assombrit avec le ciel */
+.ch8-shade {
+  background: var(--color-sun-shade);
+  opacity: clamp(0, calc((var(--p, 0) - 0.3) / 0.4), 1);
+}
+
+/* Poussières dorées */
+.ch8-dust i {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--color-dust);
+  opacity: 0;
+  animation: ch8-float 9s ease-in-out infinite;
+}
+
+@keyframes ch8-float {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(12px, -60px, 0);
+  }
+}
+
+.ch8-cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 5vh;
+  text-align: center;
+  color: var(--color-cap-sunset);
+}
+
+.ch8-text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 9vh;
+  height: 39vh;
+  display: grid;
+  padding: 0 8vw;
+  text-align: center;
+}
+
+.ch8-text > div {
+  grid-area: 1 / 1;
+  align-self: center;
+}
+
+.ch8-line {
+  font-size: clamp(26px, 3.2vw, 52px);
+  font-weight: 300;
+  line-height: 1.22;
+  margin: 0;
+}
+
+.ch8-big {
+  font-size: clamp(44px, 6.4vw, 104px);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.02;
+  margin: 0;
+}
+
+.ch8-g1 {
+  color: var(--color-ink-warm);
+}
+
+.ch8-g2,
+.ch8-g3 {
+  color: var(--color-cream-warm);
+  text-shadow: 0 1px 30px var(--color-shadow-warm);
+}
+
+@media (max-width: 760px) {
+  .ch8-stage {
+    --d: 64vmin;
+  }
+
+  .ch8-sunbox {
+    top: 55vh;
+  }
+
+  .ch8-text {
+    top: 8vh;
+    height: 44vh;
+    padding: 0 7vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ch8-dust i {
+    animation: none !important;
+  }
+}
