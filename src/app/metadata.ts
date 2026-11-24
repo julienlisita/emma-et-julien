@@ -5,7 +5,6 @@ import { SITE_NAME, SITE_URL } from '@/config/site';
 
 export const metadata: Metadata = {
   title: SITE_NAME,
-  description: 'Notre histoire, nos souvenirs, nos voyages et notre quotidien.',
   metadataBase: new URL(SITE_URL),
   // Site personnel : non indexable (temporaire)
   robots: { index: false, follow: false },

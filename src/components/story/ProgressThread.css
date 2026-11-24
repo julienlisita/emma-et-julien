@@ -1,0 +1,31 @@
+/* src/components/story/ProgressThread.css */
+
+.progress-thread {
+  position: fixed;
+  right: 18px;
+  top: 50%;
+  width: 1px;
+  height: 22vh;
+  margin-top: -11vh;
+  background: var(--color-gold-track);
+  z-index: 5;
+  pointer-events: none;
+  opacity: calc(1 - clamp(0, calc((var(--g, 0) - 0.86) * 12), 1));
+}
+
+.progress-thread i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: var(--color-gold);
+  transform-origin: top;
+  transform: scaleY(var(--g, 0));
+}
+
+@media (max-width: 760px) {
+  .progress-thread {
+    right: 10px;
+  }
+}

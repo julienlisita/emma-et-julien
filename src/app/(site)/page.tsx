@@ -3,7 +3,7 @@
 import HomeScreen from '@/screens/HomeScreen';
 
 export const metadata = {
-  title: 'Emma & Julien',
+  title: 'Pour Emma',
   alternates: {
     canonical: '/',
   },

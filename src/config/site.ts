@@ -1,6 +1,6 @@
 // src/config/site.ts
 
-export const SITE_NAME = 'Emma & Julien';
+export const SITE_NAME = 'Pour Emma';
 
 const DEFAULT_SITE_URL = 'http://localhost:3000';
 

@@ -1,0 +1,122 @@
+/* src/components/story/story.css
+   Primitives communes de l'expérience « Pour Emma ».
+   Mécanisme : ScrollEngine écrit --p (0 → 1) sur chaque section ; tout le reste est du CSS. */
+
+/* Racine de l'histoire */
+.story {
+  position: relative;
+  overflow-x: clip;
+  background: var(--color-ivory);
+  color: var(--color-ink);
+  font-family: var(--font-text);
+}
+
+/* Chapitre et stage collant */
+.story-ch {
+  position: relative;
+}
+
+.story-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+@supports (height: 100dvh) {
+  .story-stage {
+    height: 100dvh;
+  }
+}
+
+.story-fill {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.story-cover {
+  object-fit: cover;
+  display: block;
+}
+
+/* Typographie */
+.story-serif {
+  font-family: var(--font-display), Georgia, serif;
+}
+
+.story-it {
+  font-style: italic;
+}
+
+.story-cap {
+  font-family: var(--font-text);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.story-body {
+  font-family: var(--font-text);
+  font-weight: 300;
+  font-size: clamp(15px, 1.2vw, 19px);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.story-word {
+  display: inline-block;
+}
+
+/* Blocs de texte ancrés en bas / en haut du stage */
+.story-text-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 11vh;
+  padding: 0 7vw;
+  color: var(--color-cream);
+}
+
+.story-text-top {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 10vh;
+  padding: 0 7vw;
+  color: var(--color-cream);
+}
+
+/* Révélation pilotée par le défilement.
+   --a début · --d durée (0,08) · --z début de sortie (jamais) · --zd durée de sortie (0,06) */
+.reveal {
+  --t: clamp(0, calc((var(--p, 0) - var(--a, 0)) / var(--d, 0.08)), 1);
+  --u: clamp(0, calc((var(--p, 0) - var(--z, 9)) / var(--zd, 0.06)), 1);
+  opacity: calc(var(--t) * (1 - var(--u)));
+  transform: translate3d(0, calc((1 - var(--t)) * 26px + var(--u) * -18px), 0);
+  will-change: opacity, transform;
+}
+
+.reveal--soft {
+  filter: blur(calc((1 - var(--t)) * 8px));
+}
+
+/* Réduction des animations : le fondu reste (piloté par le défilement), pas le mouvement */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transform: none !important;
+    filter: none !important;
+  }
+
+  .story-zoom {
+    transform: none !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .story-text-bottom {
+    bottom: 9vh;
+  }
+}

@@ -1,11 +1,17 @@
 // src/screens/HomeScreen.tsx
 
-import PageTitle from '@/components/ui/PageTitle';
+import Chapter01 from '@/components/story/chapters/Chapter01';
+import ProgressThread from '@/components/story/ProgressThread';
+import ScrollEngine from '@/components/story/ScrollEngine';
+import '@/components/story/story.css';
 
 export default function HomeScreen() {
   return (
-    <div className="flex min-h-[60vh] items-center justify-center p-8">
-      <PageTitle>Emma & Julien</PageTitle>
+    <div className="story">
+      <h1 className="sr-only">Pour Emma</h1>
+      <ScrollEngine />
+      <ProgressThread />
+      <Chapter01 />
     </div>
   );
 }

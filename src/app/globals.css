@@ -202,6 +202,107 @@
   --foreground: var(--color-text);
 
   --header-offset: var(--header-height);
+
+  /* =========================================================
+     POUR EMMA — palette, dégradés, voiles, polices
+     Valeurs issues de handoff/design/tokens.json
+     ========================================================= */
+
+  /* Couleurs */
+  --color-ink: #2a2420;
+  --color-cream: #fbf6ec;
+  --color-ivory: #f4eee2;
+  --color-gold: #c9a45c;
+  --color-gold-deep: #8a6538;
+  --color-gold-dust: #c9b48a;
+  --color-body-brown: #5b4a3d;
+  --color-muted-brown: #6b5a4c;
+  --color-caption-brown: #8a7563;
+  --color-caption-brown-2: #7e6a57;
+  --color-ink-warm: #3a2418;
+  --color-cream-warm: #fff4e2;
+  --color-cap-sunset: #5a3a26;
+  --color-night: #0e1626;
+  --color-night-deep: #1d2438;
+  --color-pre-dawn: #2d3651;
+  --color-cream-2: #f1e4cc;
+  --color-sand: #ebd6b0;
+  --color-star: #fff6df;
+  --color-dust: #ffe9c2;
+
+  /* Nuances d'effets (ombres, lueurs, voiles unis) */
+  --color-cream-clear: rgba(251, 246, 236, 0);
+  --color-gold-track: rgba(201, 164, 92, 0.25);
+  --color-ghost: rgba(150, 110, 60, 0.09);
+  --color-star-glow: rgba(255, 240, 210, 0.8);
+  --color-sun-glow: rgba(255, 210, 150, 0.55);
+  --color-sun-shade: rgba(40, 30, 64, 0.45);
+  --color-final-dim: rgba(11, 19, 34, 0.38);
+  --color-shadow-cue: rgba(0, 0, 0, 0.4);
+  --color-shadow-warm: rgba(60, 30, 40, 0.35);
+
+  /* Dégradés de ciel */
+  --gradient-dawn-start: linear-gradient(
+    180deg,
+    #2d3651 0%,
+    #57587a 42%,
+    #b98c8c 78%,
+    #e2ae8e 100%
+  );
+  --gradient-dawn-end: linear-gradient(180deg, #eadccb 0%, #f5e6d0 45%, #fae7cc 100%);
+  --gradient-sun: radial-gradient(
+    circle,
+    rgba(255, 233, 190, 0.95) 0%,
+    rgba(255, 212, 150, 0.5) 26%,
+    rgba(255, 200, 140, 0) 66%
+  );
+  --gradient-simple-things: linear-gradient(180deg, #f1e4cc, #eedcbd);
+  --gradient-sunset: linear-gradient(180deg, #e7ae7b 0%, #efc290 38%, #f4d2a0 66%, #e9a46f 100%);
+  --gradient-dusk: linear-gradient(180deg, #3f3a5e 0%, #7b5675 42%, #c67c6b 76%, #e6a26e 100%);
+  --gradient-night: linear-gradient(180deg, #0b1322 0%, #14203a 55%, #22284a 100%);
+  --gradient-sun-halo: radial-gradient(
+    circle,
+    rgba(255, 222, 165, 0.7) 0%,
+    rgba(255, 200, 140, 0.26) 30%,
+    rgba(255, 190, 130, 0) 60%
+  );
+  --gradient-sun-tint: radial-gradient(
+    circle at 50% 40%,
+    rgba(255, 214, 160, 0.1),
+    rgba(232, 150, 90, 0.55)
+  );
+
+  /* Voiles de lisibilité */
+  --veil-bottom-night: linear-gradient(
+    to top,
+    rgba(16, 22, 38, 0.84) 0%,
+    rgba(16, 22, 38, 0.42) 42%,
+    rgba(16, 22, 38, 0) 72%
+  );
+  --veil-top-night: linear-gradient(to bottom, rgba(14, 22, 38, 0.6), rgba(14, 22, 38, 0) 48%);
+  --veil-bottom-night-strong: linear-gradient(
+    to top,
+    rgba(14, 22, 38, 0.88) 0%,
+    rgba(14, 22, 38, 0.52) 45%,
+    rgba(14, 22, 38, 0) 76%
+  );
+  --veil-bottom-warm: linear-gradient(
+    to top,
+    rgba(52, 30, 14, 0.84) 0%,
+    rgba(52, 30, 14, 0.46) 40%,
+    rgba(52, 30, 14, 0) 68%
+  );
+  --veil-final: linear-gradient(
+    to top,
+    rgba(11, 19, 34, 0.95) 0%,
+    rgba(11, 19, 34, 0.7) 34%,
+    rgba(11, 19, 34, 0.15) 62%,
+    rgba(11, 19, 34, 0) 80%
+  );
+
+  /* Polices (variables injectées par next/font dans app/layout.tsx) */
+  --font-display: var(--font-cormorant), Georgia, serif;
+  --font-text: var(--font-jost), system-ui, sans-serif;
 }
 
 /* ===== Dark mode ===== */
@@ -246,9 +347,10 @@ html.dark {
 html,
 body {
   max-width: 100vw;
-  overflow-x: hidden;
+  /* clip (et non hidden) : hidden créerait un conteneur de défilement et casserait position: sticky */
+  overflow-x: clip;
   font-family: system-ui, sans-serif;
-  background: var(--background);
+  background: var(--color-night);
   color: var(--foreground);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

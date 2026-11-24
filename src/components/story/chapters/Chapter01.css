@@ -1,0 +1,95 @@
+/* src/components/story/chapters/Chapter01.css — I · Emma */
+
+.ch1-stage {
+  background: var(--color-night-deep);
+}
+
+.ch1-img {
+  object-position: 50% 38%;
+  transform-origin: 46% 42%;
+  transform: scale(calc(1.05 + var(--p, 0) * 0.16));
+}
+
+.ch1-veil {
+  background: var(--veil-bottom-night);
+  opacity: clamp(0, calc(var(--p, 0) * 7), 1);
+}
+
+.ch1-out {
+  background: var(--color-pre-dawn);
+  opacity: clamp(0, calc((var(--p, 0) - 0.84) / 0.14), 1);
+}
+
+/* Indication d'ouverture */
+.ch1-cue {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-cream);
+  text-shadow: 0 1px 18px var(--color-shadow-cue);
+  opacity: calc(1 - clamp(0, calc(var(--p, 0) * 16), 1));
+}
+
+.ch1-sig {
+  font-size: 24px;
+  font-style: italic;
+  font-weight: 400;
+  margin: 0;
+}
+
+.ch1-cue-line {
+  width: 1px;
+  height: 44px;
+  background: linear-gradient(var(--color-cream), var(--color-cream-clear));
+  transform-origin: top;
+  animation: ch1-cue 2.6s ease-in-out infinite;
+}
+
+@keyframes ch1-cue {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ch1-cue-line {
+    animation: none !important;
+  }
+}
+
+/* Textes */
+.ch1-name {
+  font-size: clamp(68px, 11vw, 176px);
+  line-height: 0.92;
+  font-weight: 300;
+  margin: 0 0 0.14em;
+}
+
+.ch1-l1 {
+  font-size: clamp(24px, 3.1vw, 48px);
+  line-height: 1.25;
+  font-weight: 300;
+  max-width: 17em;
+  margin: 0;
+}
+
+.ch1-l2 {
+  font-size: clamp(38px, 5.2vw, 84px);
+  line-height: 1.06;
+  font-weight: 300;
+  max-width: 11em;
+  margin: 0;
+}
