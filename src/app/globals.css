@@ -241,6 +241,10 @@
   --color-shadow-cue: rgba(0, 0, 0, 0.4);
   --color-shadow-warm: rgba(60, 30, 40, 0.35);
 
+  /* Couleurs de repli : haut de chaque scène, visibles si Safari tarde à la dessiner */
+  --color-backdrop-simple-things: #f1e4cc;
+  --color-backdrop-sunset: #e7ae7b;
+
   /* Dégradés de ciel */
   --gradient-dawn-start: linear-gradient(
     180deg,

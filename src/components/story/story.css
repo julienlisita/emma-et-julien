@@ -13,6 +13,40 @@
   line-height: normal;
 }
 
+/* Fond de repli de chaque chapitre = couleur du haut de sa scène. Pendant un défilement rapide,
+   Safari peut afficher la scène suivante avant de l'avoir dessinée : on voit alors cette couleur
+   (cohérente avec la scène) plutôt que l'ivoire de la page. */
+.story-ch[data-ch='1'] {
+  background: var(--color-night-deep);
+}
+
+.story-ch[data-ch='2'] {
+  background: var(--color-pre-dawn);
+}
+
+.story-ch[data-ch='3'],
+.story-ch[data-ch='4'],
+.story-ch[data-ch='5'] {
+  background: var(--color-ivory);
+}
+
+.story-ch[data-ch='6'] {
+  background: var(--color-backdrop-simple-things);
+}
+
+.story-ch[data-ch='7'] {
+  background: var(--color-sand);
+}
+
+.story-ch[data-ch='8'] {
+  background: var(--color-backdrop-sunset);
+}
+
+.story-ch[data-ch='9'],
+.story-ch[data-ch='10'] {
+  background: var(--color-night);
+}
+
 /* Chapitre et stage collant */
 .story-ch {
   position: relative;
