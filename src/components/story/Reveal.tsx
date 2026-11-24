@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import type { CSSVars } from './types';
 
 type RevealProps = {
-  as?: 'p' | 'div' | 'span';
+  as?: 'p' | 'div' | 'span' | 'figcaption';
   /** Début de l'entrée (progression du chapitre, 0 → 1) */
   a: number;
   /** Durée de l'entrée (défaut 0,08) */

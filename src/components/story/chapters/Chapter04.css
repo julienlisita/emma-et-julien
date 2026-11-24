@@ -1,0 +1,65 @@
+/* src/components/story/chapters/Chapter04.css — IV · Tes yeux, ton sourire */
+
+.ch4-stage {
+  background: var(--color-ivory);
+}
+
+/* On commence dans les yeux d'Emma, puis on recule jusqu'aux deux visages (p ≈ 0,56) */
+.ch4-img {
+  object-position: 50% 35%;
+  transform-origin: 70% 38%;
+  transform: scale(calc(2.7 - 1.7 * clamp(0, calc((var(--p, 0) - 0.06) / 0.5), 1)));
+}
+
+.ch4-veil-top {
+  background: var(--veil-top-night);
+  opacity: clamp(0, calc((var(--p, 0) - 0.08) / 0.08), 1);
+}
+
+.ch4-veil-bottom {
+  background: var(--veil-bottom-night-strong);
+  opacity: clamp(0, calc((var(--p, 0) - 0.5) / 0.08), 1);
+}
+
+/* Couvercle d'entrée : l'image émerge d'un fond uni */
+.ch4-in {
+  background: var(--color-ivory);
+  opacity: calc(1 - clamp(0, calc(var(--p, 0) / 0.1), 1));
+}
+
+.ch4-out {
+  background: var(--color-ivory);
+  opacity: clamp(0, calc((var(--p, 0) - 0.9) / 0.09), 1);
+}
+
+.ch4-big {
+  font-size: clamp(42px, 5.6vw, 88px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.05;
+  margin: 16px 0 0;
+}
+
+.ch4-text {
+  font-size: clamp(19px, 1.9vw, 28px);
+  font-weight: 300;
+  line-height: 1.5;
+  max-width: 28em;
+  margin: 0 0 1.2em;
+}
+
+.ch4-final {
+  font-size: clamp(34px, 4.4vw, 70px);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.1;
+  max-width: 14em;
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  .ch4-img {
+    object-position: 50% 40%;
+    transform-origin: 88% 37%;
+  }
+}
