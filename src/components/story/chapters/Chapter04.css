@@ -29,7 +29,7 @@
 
 .ch4-out {
   background: var(--color-ivory);
-  opacity: clamp(0, calc((var(--p, 0) - 0.9) / 0.09), 1);
+  opacity: clamp(0, calc((var(--p, 0) - 0.84) / 0.09), 1);
 }
 
 .ch4-big {

@@ -17,7 +17,7 @@
 
 .ch1-out {
   background: var(--color-pre-dawn);
-  opacity: clamp(0, calc((var(--p, 0) - 0.84) / 0.14), 1);
+  opacity: clamp(0, calc((var(--p, 0) - 0.8) / 0.12), 1);
 }
 
 /* Indication d'ouverture */

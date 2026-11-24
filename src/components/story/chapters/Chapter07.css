@@ -101,7 +101,7 @@
 /* Fondu vers le ciel du chapitre VIII */
 .ch7-out {
   background: var(--gradient-sunset);
-  opacity: clamp(0, calc((var(--p, 0) - 0.94) / 0.06), 1);
+  opacity: clamp(0, calc((var(--p, 0) - 0.9) / 0.05), 1);
 }
 
 @media (max-width: 760px) {

@@ -23,7 +23,7 @@
 
 .ch2-out {
   background: var(--color-ivory);
-  opacity: clamp(0, calc((var(--p, 0) - 0.86) / 0.12), 1);
+  opacity: clamp(0, calc((var(--p, 0) - 0.8) / 0.12), 1);
 }
 
 .ch2-wrap {
