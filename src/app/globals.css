@@ -349,6 +349,8 @@ body {
   max-width: 100vw;
   /* clip (et non hidden) : hidden créerait un conteneur de défilement et casserait position: sticky */
   overflow-x: clip;
+  /* Désactive l'effet de rebond (élasticité) en haut et en bas de page */
+  overscroll-behavior: none;
   font-family: system-ui, sans-serif;
   background: var(--color-night);
   color: var(--foreground);
