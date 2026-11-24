@@ -93,3 +93,13 @@
   max-width: 11em;
   margin: 0;
 }
+
+/* Même fondu (p 0.8 → 0.92) piloté par le défilement, sans retard */
+@supports (animation-timeline: view()) {
+  .ch1-out {
+    opacity: 0;
+    animation: story-out linear both;
+    animation-timeline: --ch;
+    animation-range: contain 80% contain 92%;
+  }
+}

@@ -63,3 +63,13 @@
     transform-origin: 88% 37%;
   }
 }
+
+/* Même fondu (p 0.84 → 0.93) piloté par le défilement, sans retard */
+@supports (animation-timeline: view()) {
+  .ch4-out {
+    opacity: 0;
+    animation: story-out linear both;
+    animation-timeline: --ch;
+    animation-range: contain 84% contain 93%;
+  }
+}
