@@ -5,6 +5,8 @@ import Chapter02 from '@/components/story/chapters/Chapter02';
 import Chapter03 from '@/components/story/chapters/Chapter03';
 import Chapter04 from '@/components/story/chapters/Chapter04';
 import Chapter05 from '@/components/story/chapters/Chapter05';
+import Chapter06 from '@/components/story/chapters/Chapter06';
+import Chapter07 from '@/components/story/chapters/Chapter07';
 import ProgressThread from '@/components/story/ProgressThread';
 import ScrollEngine from '@/components/story/ScrollEngine';
 import '@/components/story/story.css';
@@ -20,6 +22,8 @@ export default function HomeScreen() {
       <Chapter03 />
       <Chapter04 />
       <Chapter05 />
+      <Chapter06 />
+      <Chapter07 />
     </div>
   );
 }

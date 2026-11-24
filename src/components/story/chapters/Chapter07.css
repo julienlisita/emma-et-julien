@@ -1,0 +1,115 @@
+/* src/components/story/chapters/Chapter07.css — VII · La femme de ma vie */
+
+.ch7-bg {
+  background: var(--color-sand);
+}
+
+.ch7-mask {
+  --m: clamp(0, calc((var(--p, 0) - 0.3) / 0.22), 1);
+  --aw: min(30vw, 340px);
+  position: absolute;
+  inset: 0;
+  clip-path: inset(
+    calc((1 - var(--m)) * 25vh) calc((1 - var(--m)) * (50vw - var(--aw) / 2))
+      calc((1 - var(--m)) * 21vh) round calc((1 - var(--m)) * 999px) calc((1 - var(--m)) * 999px) 0
+      0
+  );
+}
+
+.ch7-img {
+  object-position: 50% 40%;
+  transform: scale(calc(1.22 - var(--m) * 0.22));
+}
+
+.ch7-veil {
+  background: var(--veil-bottom-warm);
+  opacity: clamp(0, calc((var(--p, 0) - 0.52) / 0.1), 1);
+}
+
+/* Au-dessus de l'arche (bande haute de 25vh) */
+.ch7-head {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 25vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 0 8vw 2.6vh;
+  text-align: center;
+}
+
+.ch7-head-text {
+  font-size: clamp(21px, 2.3vw, 36px);
+  font-weight: 400;
+  line-height: 1.25;
+  max-width: 24em;
+  margin: 0;
+}
+
+/* Sous l'arche (bande basse de 21vh) */
+.ch7-foot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 21vh;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 2.6vh;
+}
+
+.ch7-foot-text {
+  font-size: clamp(38px, 4.6vw, 74px);
+  font-style: italic;
+  font-weight: 300;
+  margin: 0;
+  line-height: 1;
+}
+
+.ch7-cells {
+  display: grid;
+}
+
+.ch7-cells > div {
+  grid-area: 1 / 1;
+  align-self: end;
+}
+
+.ch7-line {
+  font-size: clamp(22px, 2.4vw, 38px);
+  font-weight: 300;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.ch7-final {
+  font-size: clamp(36px, 4.6vw, 74px);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.08;
+  margin: 0;
+  max-width: 13em;
+}
+
+/* Fondu vers le ciel du chapitre VIII */
+.ch7-out {
+  background: var(--gradient-sunset);
+  opacity: clamp(0, calc((var(--p, 0) - 0.94) / 0.06), 1);
+}
+
+@media (max-width: 760px) {
+  .ch7-mask {
+    --aw: 62vw;
+  }
+
+  .ch7-img {
+    object-position: 50% 45%;
+  }
+}

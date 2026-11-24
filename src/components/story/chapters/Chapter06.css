@@ -1,0 +1,147 @@
+/* src/components/story/chapters/Chapter06.css — VI · Le bonheur des choses simples */
+
+.ch6-bg {
+  background: var(--gradient-simple-things);
+}
+
+.ch6-ghost {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  white-space: nowrap;
+  font-size: 24vw;
+  line-height: 1;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--color-ghost);
+  pointer-events: none;
+  margin: 0;
+  transform: translate3d(calc(30vw - var(--p, 0) * 150vw), -50%, 0);
+}
+
+.ch6-intro {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 10vw;
+  gap: 22px;
+}
+
+.ch6-big {
+  font-size: clamp(34px, 4.6vw, 74px);
+  font-weight: 300;
+  line-height: 1.12;
+  max-width: 14em;
+  margin: 0;
+}
+
+.ch6-strip {
+  --h: clamp(0, calc((var(--p, 0) - 0.12) / 0.64), 1);
+  position: absolute;
+  top: 50%;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 7vw;
+  padding: 0 30vw 0 100vw;
+  width: max-content;
+  transform: translate3d(calc(var(--h) * (100vw - 100%)), -50%, 0);
+}
+
+.ch6-fig {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: none;
+}
+
+.ch6-ph {
+  position: relative;
+  height: 60vh;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 3px;
+}
+
+.ch6-ph--landscape {
+  height: 48vh;
+  aspect-ratio: 4 / 3;
+}
+
+/* Parallaxe horizontale interne à chaque image */
+.ch6-img {
+  transform: translate3d(calc((var(--h) - 0.5) * -6%), 0, 0) scale(1.12);
+}
+
+.ch6-caption {
+  color: var(--color-caption-brown-2);
+  font-size: 12px;
+}
+
+.ch6-word {
+  font-size: clamp(40px, 5.4vw, 88px);
+  font-style: italic;
+  font-weight: 300;
+  white-space: nowrap;
+  margin: 0;
+  flex: none;
+}
+
+.ch6-end {
+  background: var(--color-sand);
+  opacity: clamp(0, calc((var(--p, 0) - 0.78) / 0.08), 1);
+}
+
+.ch6-endtext {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  text-align: center;
+  padding: 0 9vw;
+}
+
+.ch6-e1 {
+  font-size: clamp(24px, 2.8vw, 44px);
+  font-weight: 400;
+  line-height: 1.3;
+  max-width: 20em;
+  margin: 0;
+}
+
+.ch6-e2 {
+  font-size: clamp(44px, 6vw, 96px);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.04;
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  .ch6-ph {
+    height: 52vh;
+  }
+
+  .ch6-ph--landscape {
+    height: 34vh;
+  }
+
+  .ch6-strip {
+    gap: 12vw;
+    padding: 0 20vw 0 100vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ch6-ghost {
+    display: none;
+  }
+}
