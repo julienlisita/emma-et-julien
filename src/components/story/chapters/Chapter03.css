@@ -1,0 +1,70 @@
+/* src/components/story/chapters/Chapter03.css — III · Ta voix */
+
+.ch3-stage {
+  background: var(--color-ivory);
+}
+
+.ch3-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 0 8vw;
+  text-align: center;
+}
+
+/* L'ovale ne coupe que les coins de l'image (demande explicite) : aucun zoom, centré */
+.ch3-oval {
+  position: relative;
+  width: clamp(200px, 19vw, 280px);
+  aspect-ratio: 3 / 4;
+  border-radius: 50%;
+  overflow: hidden;
+  flex: none;
+}
+
+.ch3-img {
+  object-position: 50% 50%;
+  transform: scale(calc(1.04 - var(--p, 0) * 0.04));
+}
+
+.ch3-wave {
+  width: min(520px, 70vw);
+  height: 30px;
+  display: block;
+}
+
+.ch3-wave path {
+  fill: none;
+  stroke: var(--color-gold);
+  stroke-width: 1;
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - clamp(0, calc((var(--p, 0) - 0.08) / 0.5), 1));
+}
+
+.ch3-l1 {
+  font-size: clamp(28px, 3.8vw, 60px);
+  font-weight: 300;
+  line-height: 1.15;
+  max-width: 15em;
+  margin: 0;
+}
+
+.ch3-l2 {
+  font-size: clamp(19px, 1.7vw, 26px);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-muted-brown);
+  max-width: 26em;
+  margin: 0;
+  line-height: 1.5;
+}
+
+@media (max-width: 760px) {
+  .ch3-oval {
+    width: 200px;
+  }
+}

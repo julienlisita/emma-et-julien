@@ -120,3 +120,8 @@
     bottom: 9vh;
   }
 }
+
+/* Capitales de chapitre sur fonds clairs */
+.story-cap--deep {
+  color: var(--color-gold-deep);
+}

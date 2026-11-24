@@ -1,0 +1,98 @@
+/* src/components/story/chapters/Chapter02.css — II · La première pensée */
+
+.ch2-sky-a {
+  background: var(--gradient-dawn-start);
+}
+
+.ch2-sky-b {
+  background: var(--gradient-dawn-end);
+  opacity: clamp(0, calc(var(--p, 0) / 0.36), 1);
+}
+
+.ch2-sun {
+  position: absolute;
+  left: 50%;
+  top: 58%;
+  width: 96vmin;
+  height: 96vmin;
+  margin: -48vmin 0 0 -48vmin;
+  border-radius: 50%;
+  background: var(--gradient-sun);
+  transform: translate3d(0, calc(34vh - var(--p, 0) * 52vh), 0);
+}
+
+.ch2-out {
+  background: var(--color-ivory);
+  opacity: clamp(0, calc((var(--p, 0) - 0.86) / 0.12), 1);
+}
+
+.ch2-wrap {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 6vw;
+  padding: 0 8vw;
+}
+
+.ch2-text {
+  max-width: 560px;
+}
+
+.ch2-l1 {
+  font-size: clamp(24px, 2.8vw, 42px);
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 18px 0 0;
+}
+
+.ch2-l2 {
+  font-size: clamp(46px, 6vw, 94px);
+  font-weight: 300;
+  line-height: 1;
+  margin: 0.08em 0 0.55em;
+}
+
+.ch2-body {
+  color: var(--color-body-brown);
+  max-width: 26em;
+}
+
+.ch2-arch {
+  --m: clamp(0, calc((var(--p, 0) - 0.3) / 0.24), 1);
+  position: relative;
+  justify-self: center;
+  height: min(72vh, 640px);
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 999px 999px 4px 4px;
+  clip-path: inset(calc((1 - var(--m)) * 100%) 0 0 0 round 999px 999px 4px 4px);
+}
+
+.ch2-img {
+  transform: scale(calc(1.18 - var(--m) * 0.18));
+}
+
+@media (max-width: 760px) {
+  .ch2-wrap {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: center;
+    gap: 4vh;
+    padding: 0 7vw;
+    text-align: center;
+  }
+
+  .ch2-arch {
+    order: -1;
+    height: 40vh;
+  }
+
+  .ch2-text {
+    margin: 0 auto;
+  }
+
+  .ch2-l2 {
+    margin-bottom: 0.4em;
+  }
+}
